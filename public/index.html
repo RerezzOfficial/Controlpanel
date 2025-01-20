@@ -14,6 +14,8 @@
       <div id="memory">Memory: Loading...</div>
       <div id="os">OS: Loading...</div>
       <div id="disk">Disk: Loading...</div>
+      <div id="local-ip">Local IP: Loading...</div>
+      <div id="public-ip">Public IP: Loading...</div>
     </div>
   </div>
   <script>
@@ -24,7 +26,9 @@
       document.getElementById('cpu').innerText = 'CPU: ' + data.cpu.manufacturer + ' ' + data.cpu.speed + ' GHz';
       document.getElementById('memory').innerText = 'Memory: ' + (data.memory.total / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
       document.getElementById('os').innerText = 'OS: ' + data.os.distro + ' ' + data.os.release;
-      document.getElementById('disk').innerText = 'Disk: ' + data.disk[0].size / (1024 * 1024 * 1024) + ' GB';
+      document.getElementById('disk').innerText = 'Disk: ' + (data.disk[0].size / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+      document.getElementById('local-ip').innerText = 'Local IP: ' + data.localIP;
+      document.getElementById('public-ip').innerText = 'Public IP: ' + data.publicIP;
     }
 
     fetchSystemData();
