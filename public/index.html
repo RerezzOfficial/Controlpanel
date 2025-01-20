@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VPS Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="dashboard">
+    <h1>VPS Dashboard</h1>
+    <div class="data">
+      <div id="cpu">CPU: Loading...</div>
+      <div id="memory">Memory: Loading...</div>
+      <div id="os">OS: Loading...</div>
+      <div id="disk">Disk: Loading...</div>
+    </div>
+  </div>
+  <script>
+    async function fetchSystemData() {
+      const response = await fetch('/api/system');
+      const data = await response.json();
+
+      document.getElementById('cpu').innerText = 'CPU: ' + data.cpu.manufacturer + ' ' + data.cpu.speed + ' GHz';
+      document.getElementById('memory').innerText = 'Memory: ' + (data.memory.total / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+      document.getElementById('os').innerText = 'OS: ' + data.os.distro + ' ' + data.os.release;
+      document.getElementById('disk').innerText = 'Disk: ' + data.disk[0].size / (1024 * 1024 * 1024) + ' GB';
+    }
+
+    fetchSystemData();
+  </script>
+</body>
+</html>
