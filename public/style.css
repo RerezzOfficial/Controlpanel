@@ -36,3 +36,8 @@ h1 {
   font-size: 18px;
   color: #333;
 }
+#local-ip, #public-ip {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
