@@ -9,6 +9,14 @@
 <body>
   <div class="dashboard">
     <h1>VPS Dashboard</h1>
+
+    <!-- Form Input IP VPS -->
+    <div>
+      <label for="vps-ip">Enter VPS IP:</label>
+      <input type="text" id="vps-ip" placeholder="Enter VPS IP" />
+      <button onclick="fetchVpsData()">Get VPS Data</button>
+    </div>
+
     <div class="data">
       <div id="cpu">CPU: Loading...</div>
       <div id="memory">Memory: Loading...</div>
@@ -19,19 +27,27 @@
     </div>
   </div>
   <script>
-    async function fetchSystemData() {
-      const response = await fetch('/api/system');
-      const data = await response.json();
-
-      document.getElementById('cpu').innerText = 'CPU: ' + data.cpu.manufacturer + ' ' + data.cpu.speed + ' GHz';
-      document.getElementById('memory').innerText = 'Memory: ' + (data.memory.total / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
-      document.getElementById('os').innerText = 'OS: ' + data.os.distro + ' ' + data.os.release;
-      document.getElementById('disk').innerText = 'Disk: ' + (data.disk[0].size / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
-      document.getElementById('local-ip').innerText = 'Local IP: ' + data.localIP;
-      document.getElementById('public-ip').innerText = 'Public IP: ' + data.publicIP;
+    async function fetchVpsData() {
+      const vpsIp = document.getElementById('vps-ip').value;
+      if (!vpsIp) {
+        alert("Please enter a valid VPS IP.");
+        return;
+      }
+      try {
+        const response = await fetch(`/api/system/${vpsIp}`);
+        const data = await response.json();
+        
+        document.getElementById('cpu').innerText = 'CPU: ' + data.cpu;
+        document.getElementById('memory').innerText = 'Memory: ' + data.memory;
+        document.getElementById('os').innerText = 'OS: ' + data.os;
+        document.getElementById('disk').innerText = 'Disk: ' + data.disk;
+        document.getElementById('local-ip').innerText = 'Local IP: ' + data.localIP;
+        document.getElementById('public-ip').innerText = 'Public IP: ' + data.publicIP;
+      } catch (error) {
+        console.error(error);
+        alert("Failed to fetch VPS data.");
+      }
     }
-
-    fetchSystemData();
   </script>
 </body>
 </html>
